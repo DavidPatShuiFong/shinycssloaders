@@ -6,10 +6,16 @@
 #' @param size The size of the spinner, relative to it's default size.
 #' @param color.background For certain spinners (type 2-3), you will need to specify the background colour of the spinner
 #' @param custom.css If custom css is to be applied, we don't enforce the color / size options to the given spinner id
+#' @param hide.element.when.recalculating The UI element is hidden when recalculating if set to TRUE (default). Otherwise the UI element is hidden till recalculation is done.
 #' @param proxy.height If the output doesn't specify the output height, you can set a proxy height. It defaults to 400px for outputs with undefined height.
 #' @examples
 #' \dontrun{withSpinner(plotOutput("my_plot"))}
-withSpinner <- function(ui_element,type=getOption("spinner.type",default=1),color=getOption("spinner.color",default="#0275D8"),size=getOption("spinner.size",default=1),color.background=getOption("spinner.color.background"),custom.css=FALSE,proxy.height=if (grepl("height:\\s*\\d",ui_element)) NULL else "400px") {
+withSpinner <- function(ui_element, type = getOption("spinner.type", default = 1),
+                        color = getOption("spinner.color", default = "#0275D8"),
+                        size = getOption("spinner.size", default = 1),
+                        color.background = getOption("spinner.color.background"),
+                        custom.css = FALSE, hide.element.when.recalculating = TRUE,
+                        proxy.height = if (grepl("height:\\s*\\d", ui_element)) NULL else "400px") {
   stopifnot(type %in% 1:8)
   
   if (grepl("rgb",color,fixed=TRUE)) {
@@ -110,12 +116,18 @@ withSpinner <- function(ui_element,type=getOption("spinner.type",default=1),colo
                                 class="shiny-spinner-placeholder")
   }
   
+  if (hide.element.when.recalculating) {
+    spinner.js <- "assets/spinner.js"
+  } else {
+    spinner.js <- "assets/spinner_always_display_element.js"
+  }
+  
   shiny::tagList(
     shiny::singleton(
       shiny::tags$head(shiny::tags$link(rel="stylesheet",href="assets/spinner.css"))
     ),
     shiny::singleton(
-      shiny::tags$script(src="assets/spinner.js")
+      shiny::tags$script(src=spinner.js)
     ),
     shiny::singleton(
       shiny::tags$head(shiny::tags$link(rel="stylesheet",href=sprintf("css-loaders/css/fallback.css",type)))

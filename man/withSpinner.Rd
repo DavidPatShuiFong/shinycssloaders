@@ -8,8 +8,9 @@ withSpinner(ui_element, type = getOption("spinner.type", default = 1),
   color = getOption("spinner.color", default = "#0275D8"),
   size = getOption("spinner.size", default = 1),
   color.background = getOption("spinner.color.background"),
-  custom.css = FALSE, proxy.height = if (grepl("height:\\\\s*\\\\d",
-  ui_element)) NULL else "400px")
+  custom.css = FALSE, hide.element.when.recalculating = TRUE,
+  proxy.height = if (grepl("height:\\\\s*\\\\d", ui_element)) NULL else
+  "400px")
 }
 \arguments{
 \item{ui_element}{A UI element that should be wrapped with a spinner when the corresponding output is being calculated.}
@@ -24,6 +25,8 @@ withSpinner(ui_element, type = getOption("spinner.type", default = 1),
 
 \item{custom.css}{If custom css is to be applied, we don't enforce the color / size options to the given spinner id}
 
+\item{hide.element.when.recalculating}{The UI element is hidden when recalculating if set to TRUE (default). Otherwise the UI element is hidden till recalculation is done.}
+
 \item{proxy.height}{If the output doesn't specify the output height, you can set a proxy height. It defaults to 400px for outputs with undefined height.}
 }
 \description{
@@ -32,4 +35,3 @@ Add a spinner (loader) that shows when an output is recalculating
 \examples{
 \dontrun{withSpinner(plotOutput("my_plot"))}
 }
-
