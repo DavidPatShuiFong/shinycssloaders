@@ -14,7 +14,7 @@ withSpinner <- function(ui_element, type = getOption("spinner.type", default = 1
                         color = getOption("spinner.color", default = "#0275D8"),
                         size = getOption("spinner.size", default = 1),
                         color.background = getOption("spinner.color.background"),
-                        custom.css = FALSE, hide.element.when.recalculating = TRUE,
+                        custom.css = FALSE, hide.element.when.recalculating = FALSE,
                         proxy.height = if (grepl("height:\\s*\\d", ui_element)) NULL else "400px") {
   stopifnot(type %in% 1:8)
   
